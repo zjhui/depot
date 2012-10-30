@@ -52,7 +52,7 @@ class LineItemsController < ApplicationController
         # when "Add to Cart",redirect to the store index
         format.html { redirect_to(store_url) }
         format.json { render json: @line_item, status: :created, location: @line_item }
-        format.js
+        format.js { @current_item = @line_item }
       else
         format.html { render action: "new" }
         format.json { render json: @line_item.errors, status: :unprocessable_entity }
