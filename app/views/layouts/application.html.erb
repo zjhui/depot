@@ -2,20 +2,18 @@
 <html>
   <head>
     <title>Pragprog Books Online Store</title>
-    <%= stylesheet_link_tag "scaffolds" %>
-    <%= stylesheet_link_tag "depot", :media => "all" %>
+    <%= stylesheet_link_tag "application", media: "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tag %>
   </head>
-  <body id="store" >
+  <body class="<%= controller.controller_name %>">
     <div id="banner" >
       <%= image_tag("/images/logo.png") %>
       <%= @page_title || "Pragmatic Bookshelf" %>
     <td colspan="2">Total</td>
     </div>
     <div id="columns" >
-      <div id="side" >
-        <div id="cart">
+        <div id="side">
           <% if @cart %>
           <!-- start:hidden_div-->
           <%= hidden_div_if(@cart.line_items.empty?, :id => "cart") do %>
@@ -23,13 +21,24 @@
           <% end %>
           <!--end:hidden_div-->
         <% end %>
+
+        <ul>
+          <li><a href="http://www...." >Home</a></li>
+          <li><a href="http://www..../faq" >Questions</a></li>
+          <li><a href="http://www..../news" >News</a></li>
+          <li><a href="http://www..../contact" >Contact</a></li>
+        </ul>
+
+        <% if session[:user_id] %>
+          <ul>
+            <li><%= link_to 'Orders',  orders_path %></li>
+            <li><%= link_to 'Products', products_path %></li>
+            <li><%= link_to 'Users',  users_path %></li>
+          </ul>
+          <%= button_to 'Logout', logout_path, method: :get %>
+        <% end %>
         </div>
 
-        <a href="http://www...." >Home</a><br />
-        <a href="http://www..../faq" >Questions</a><br />
-        <a href="http://www..../news" >News</a><br />
-        <a href="http://www..../contact" >Contact</a><br />
-      </div>
       <div id="main" >
         <%= yield %>
       </div>
